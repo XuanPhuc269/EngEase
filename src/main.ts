@@ -8,10 +8,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   const config = new DocumentBuilder()
-    .setTitle('OpenAI API')
-    .setDescription('The OpenAI API description')
+    .setTitle('EngEase')
+    .setDescription('An application supports English learners by using AI Agent to generate grammatical assignments and practice daily speaking conversations.')
     .setVersion('1.0')
     .addTag('openai')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
