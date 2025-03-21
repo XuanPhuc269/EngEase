@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
-import { CreateExerciseDto } from './dto/create-grammar-exercise.dto';
+import { CreateGrammarExerciseDto } from './dto/create-grammar-exercise.dto';
 
 @Injectable()
 export class GrammarExerciseService {
-  private exercises: CreateExerciseDto[] = [];
+  private exercises: CreateGrammarExerciseDto[] = [];
   private openai: OpenAI;
 
   constructor() {

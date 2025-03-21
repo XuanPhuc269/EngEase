@@ -1,10 +1,8 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { GrammarExerciseService } from './grammar-exercise.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { CreateGrammarExerciseDto } from './dto/create-grammar-exercise.dto';
 
-class CreateExerciseDto {
-    topic: string;
-}
 
 @ApiTags('Grammar Exercises')
 @ApiBearerAuth()
@@ -16,7 +14,7 @@ export class GrammarExerciseController {
   @ApiOperation({ summary: 'Tạo bài tập ngữ pháp bằng OpenAI' })
   @ApiResponse({ status: 201, description: 'Bài tập đã được tạo' })
   @ApiResponse({ status: 400, description: 'Unauthorized' })
-  async create(@Body() body: CreateExerciseDto) {
+  async create(@Body() body: CreateGrammarExerciseDto) {
     return await this.exerciseService.create(body.topic);
   }
 
