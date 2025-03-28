@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, NotFoundException } from '@nestjs/common';
 import { GrammarExerciseService } from './grammar-exercise.service';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiOkResponse, ApiNotFoundResponse, ApiCreatedResponse, ApiBadRequestResponse } from '@nestjs/swagger';
+import { GrammarExerciseDto } from './dto/grammar-exercise.dto';
+import { ValidationError } from 'class-validator';
 import { CreateGrammarExerciseDto } from './dto/create-grammar-exercise.dto';
-
 
 @ApiTags('Grammar Exercises')
 @ApiBearerAuth()
@@ -12,15 +13,31 @@ export class GrammarExerciseController {
 
   @Post()
   @ApiOperation({ summary: 'Tạo bài tập ngữ pháp bằng OpenAI' })
-  @ApiResponse({ status: 201, description: 'Bài tập đã được tạo' })
-  @ApiResponse({ status: 400, description: 'Unauthorized' })
-  async create(@Body() body: CreateGrammarExerciseDto) {
-    return await this.exerciseService.create(body.topic);
+  @ApiCreatedResponse({ 
+    description: 'Tạo bài tập thành công' ,
+    type: CreateGrammarExerciseDto
+  })
+  @ApiBadRequestResponse({ 
+    description: 'Thông tin điền vào không hợp lệ',
+    type: ValidationError
+  })
+  async create(@Body() body: GrammarExerciseDto) {
+    return await this.exerciseService.create(body.topic, body.number_of_questions);
   }
 
   @Get()
   @ApiOperation({ summary: 'Lấy danh sách bài tập' })
-  findAll() {
-    return this.exerciseService.findAll();
+  @ApiOkResponse({ 
+    description: 'Lấy danh sách bài tập thành công', 
+    type: CreateGrammarExerciseDto, 
+    isArray: true 
+  })
+  @ApiNotFoundResponse({ description: 'Không tìm thấy bài tập nào' })
+  async findAll() {
+    const exercises = await this.exerciseService.findAll();
+    if (exercises.length === 0) {
+      throw new NotFoundException('Không tìm thấy bài tập nào');
+    }
+    return exercises;
   }
 }
