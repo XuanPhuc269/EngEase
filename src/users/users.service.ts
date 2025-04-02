@@ -6,6 +6,7 @@ export type User = {
     password: string;
 }
 
+// Example users
 const users: User[] = [
     {
         userId: 1,
