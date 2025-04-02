@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
-import { CreateGrammarExerciseDto } from './dto/create-grammar-exercise.dto';
+import { GrammarExerciseDto } from './dto/grammar-exercise.dto';
 
 @Injectable()
 export class GrammarExerciseService {
-  private exercises: CreateGrammarExerciseDto[] = [];
+  private exercises: GrammarExerciseDto[] = [];
   private openai: OpenAI;
 
   constructor() {
     this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   }
 
-  async generateQuestions(topic: string) {
-    const prompt = `Trả lời dưới dạng JSON thuần, không có văn bản mô tả. Tạo 5 câu hỏi trắc nghiệm về chủ đề ngữ pháp "${topic}" dành cho học sinh trung học cơ sở ở Việt Nam. 
+  async generateQuestions(topic: string, number_of_questions: number) {
+    const prompt = `Trả lời dưới dạng JSON thuần, không có văn bản mô tả. Tạo "${number_of_questions}" câu hỏi trắc nghiệm về chủ đề ngữ pháp "${topic}" dành cho học sinh trung học cơ sở ở Việt Nam. 
     Mỗi câu hỏi có 3 đáp án và chỉ một đáp án đúng. Định dạng:
     [
     { "question": "Câu hỏi 1", "options": ["A", "B", "C"], "correctAnswer": "A" },
@@ -33,9 +33,9 @@ export class GrammarExerciseService {
     return questions;
   }
 
-  async create(topic: string) {
-    const questions = await this.generateQuestions(topic);
-    const newExercise = { topic, questions };
+  async create(topic: string, number_of_questions: number) {
+    const questions = await this.generateQuestions(topic, number_of_questions);
+    const newExercise = { topic, number_of_questions, questions };
     this.exercises.push(newExercise);
     return newExercise;
   }
