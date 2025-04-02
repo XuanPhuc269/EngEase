@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
+import { LoginDto } from './dto/login.dto';
 
-type AuthInput = { username: string; password: string };
 type SignInData = { userId: number, username: string };
 type AuthResult = { accessToken: string, userId: number; username: string };
 
@@ -13,17 +13,17 @@ export class AuthService {
         private jwtService: JwtService,
     ) {}
 
-    async authenicate(input: AuthInput): Promise<AuthResult> {
+    async authenicate(input: LoginDto): Promise<AuthResult> {
         const user = await this.validateUser(input);
 
         if (!user) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException('Tên đăng nhập hoặc mật khẩu không chính xác');
         }
 
         return this.signIn(user)
     }
 
-    async validateUser(input: AuthInput): Promise<SignInData | null> {
+    async validateUser(input: LoginDto): Promise<SignInData | null> {
         const user = await this.userService.findUserByName(input.username);
 
         if (user && user.password === input.password) {

@@ -14,7 +14,7 @@ async function bootstrap() {
     .addTag('openai')
     .addBearerAuth()
     .build();
-    
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
