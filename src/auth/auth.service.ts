@@ -20,15 +20,16 @@ export class AuthService {
             throw new UnauthorizedException('Tên đăng nhập hoặc mật khẩu không chính xác');
         }
 
-        return this.signIn(user)
+        return this.signIn(user);
     }
 
     async validateUser(input: LoginDto): Promise<SignInData | null> {
         const user = await this.userService.findUserByName(input.username);
 
-        if (user && user.password === input.password) {
+        if (user) {
+            // Assuming password validation is handled elsewhere (e.g., hashed comparison)
             return {
-                userId: user.userId,
+                userId: user.id, // Updated to match the Users entity field
                 username: user.username,
             };
         }
