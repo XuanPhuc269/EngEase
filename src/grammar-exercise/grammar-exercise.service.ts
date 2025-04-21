@@ -1,15 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
-import { GrammarExerciseDto } from './dto/grammar-exercise.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { GrammarExercise } from './entity/grammar-exercise.entity';
+import { Users } from 'src/users/entity/users.entity';
+
 
 @Injectable()
 export class GrammarExerciseService {
-  private exercises: GrammarExerciseDto[] = [];
   private openai: OpenAI;
 
-  constructor() {
+  constructor(
+    @InjectRepository(GrammarExercise)
+    private readonly grammarExerciseRepository: Repository<GrammarExercise>,
+    @InjectRepository(Users)
+    private readonly usersRepository: Repository<Users>,
+  ) {
     this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   }
+
 
   async generateQuestions(topic: string, number_of_questions: number) {
     const prompt = `Trả lời dưới dạng JSON thuần, không có văn bản mô tả. Tạo "${number_of_questions}" câu hỏi trắc nghiệm về chủ đề ngữ pháp "${topic}" dành cho học sinh trung học cơ sở ở Việt Nam. 
@@ -33,14 +42,24 @@ export class GrammarExerciseService {
     return questions;
   }
 
-  async create(topic: string, number_of_questions: number) {
+  async create(topic: string, number_of_questions: number, userId: number) {
     const questions = await this.generateQuestions(topic, number_of_questions);
-    const newExercise = { topic, number_of_questions, questions };
-    this.exercises.push(newExercise);
-    return newExercise;
+    const user = await this.usersRepository.findOne({ where: { id: userId } });
+
+    if (!user) throw new Error('User not found');
+
+    const exercise = this.grammarExerciseRepository.create({
+      topic,
+      questions,
+      user,
+    });
+
+    return await this.grammarExerciseRepository.save(exercise);
   }
 
   findAll() {
-    return this.exercises;
+    return this.grammarExerciseRepository.find({
+      relations: ['user'],
+    });
   }
 }

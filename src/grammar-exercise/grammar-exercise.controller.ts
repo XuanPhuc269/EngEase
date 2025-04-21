@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, NotFoundException, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, NotFoundException, UseGuards, Request } from '@nestjs/common';
 import { GrammarExerciseService } from './grammar-exercise.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiOkResponse, ApiNotFoundResponse, ApiCreatedResponse, ApiBadRequestResponse } from '@nestjs/swagger';
 import { GrammarExerciseDto } from './dto/grammar-exercise.dto';
@@ -13,7 +13,7 @@ import { JwtAuthGuard } from 'src/auth/guards/auth.guards';
 export class GrammarExerciseController {
   constructor(private readonly exerciseService: GrammarExerciseService) {}
 
-  @Post()
+  @Post('create')
   @UseGuards(JwtAuthGuard) // Protect API via JWT
   @ApiOperation({ summary: 'Tạo bài tập ngữ pháp bằng OpenAI' })
   @ApiCreatedResponse({ 
@@ -24,11 +24,11 @@ export class GrammarExerciseController {
     description: 'Thông tin điền vào không hợp lệ',
     type: ValidationError
   })
-  async create(@Body() body: GrammarExerciseDto) {
-    return await this.exerciseService.create(body.topic, body.number_of_questions);
+  async create(@Request() request, @Body() body: GrammarExerciseDto) {
+    return await this.exerciseService.create(body.topic, body.number_of_questions, request.user.userId);
   }
 
-  @Get()
+  @Get('get')
   @UseGuards(JwtAuthGuard) // Require JWT authentication to access
   @ApiOperation({ summary: 'Lấy danh sách bài tập' })
   @ApiOkResponse({ 

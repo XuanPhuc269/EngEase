@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { Users } from './users/entity/users.entity';
+import { GrammarExercise } from './grammar-exercise/entity/grammar-exercise.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { Users } from './users/entity/users.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Users],
+        entities: [Users, GrammarExercise],
         synchronize: true,
       }),
       inject: [ConfigService],
