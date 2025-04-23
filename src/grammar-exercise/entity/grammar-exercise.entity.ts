@@ -4,7 +4,7 @@ import { Users } from "../../users/entity/users.entity";
 @Entity()
 export class GrammarExercise {
     @PrimaryGeneratedColumn()
-    id: number;
+    questionId: number;
 
     @Column()
     topic: string;

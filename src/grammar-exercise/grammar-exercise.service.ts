@@ -53,9 +53,21 @@ export class GrammarExerciseService {
     return await this.grammarExerciseRepository.save(exercise);
   }
 
-  findAll() {
+  async findAllByUser(userId: number) {
+    const user = await this.usersRepository.findOne({ where: { id: userId } });
+    if (!user) throw new Error('User not found');
+
     return this.grammarExerciseRepository.find({
-      relations: ['user'],
+      where: { user: { id: userId } },
+      select: ['questionId', 'topic', 'questions'],
     });
+  }
+
+  async deleteQuestionById(questionId: number) {
+    const exercise = await this.grammarExerciseRepository.findOne({ where: {questionId: questionId} });
+    if (!exercise) throw new Error('Không tìm thấy bài tập');
+
+    await this.grammarExerciseRepository.remove(exercise);
+    return { message: 'Đã xoá bài tập thành công!' };
   }
 }
