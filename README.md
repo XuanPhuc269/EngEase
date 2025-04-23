@@ -1,98 +1,190 @@
+# EngEase - Grammar Exercise Generator
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="NestJS Logo" />
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  <b>EngEase</b> is a cutting-edge web application designed to help students improve their English grammar skills through AI-generated exercises. Built with the <a href="https://nestjs.com/" target="_blank">NestJS</a> framework, this project demonstrates my ability to create scalable, efficient, and user-friendly server-side applications.
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🚀 Features
 
-## Project setup
+- **AI-Powered Grammar Exercises**: Automatically generate grammar exercises using OpenAI's GPT-4 API.
+- **User Authentication**: Secure user authentication with JWT (JSON Web Tokens).
+- **Personalized Content**: Each user can create, view, and manage their own grammar exercises.
+- **RESTful API**: Well-structured and documented API endpoints for seamless integration.
+- **Scalable Architecture**: Built with modularity and scalability in mind using NestJS.
 
-```bash
-$ npm install
+---
+
+## 🛠️ Technologies Used
+
+- **Backend Framework**: [NestJS](https://nestjs.com) - A progressive Node.js framework for building efficient server-side applications.
+- **Database**: [TypeORM](https://typeorm.io) with PostgreSQL for relational data management.
+- **Authentication**: JWT-based authentication for secure access.
+- **AI Integration**: OpenAI's GPT-4 API for generating grammar exercises.
+- **Documentation**: Swagger for API documentation.
+- **Deployment**: Ready for deployment on cloud platforms like AWS.
+
+---
+
+## 📚 Project Overview
+
+EngEase is designed to assist students in mastering English grammar by providing personalized, AI-generated exercises. Users can:
+
+1. **Create Exercises**: Generate grammar exercises by specifying a topic and the number of questions.
+2. **View Exercises**: Retrieve a list of exercises tailored to their account.
+3. **Delete Exercises**: Manage their exercises by deleting specific ones or individual questions.
+
+This project showcases my ability to integrate AI services, implement secure authentication, and design scalable APIs.
+
+---
+
+## 🏗️ Project Setup
+
+### Prerequisites
+- Node.js (v16+)
+- PostgreSQL database
+- OpenAI API Key
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/XuanPhuc269/eng-ease.git
+   cd eng-ease
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Configure environment variables:
+   Create a `.env` file in the root directory and add the following:
+   ```env
+   DATABASE_HOST=localhost
+   DATABASE_PORT=5432
+   DATABASE_USER=your-db-user
+   DATABASE_PASSWORD=your-db-password
+   DATABASE_NAME=eng-ease
+   OPENAI_API_KEY=your-openai-api-key
+   JWT_SECRET=your-jwt-secret
+   ```
+
+4. Run database migrations:
+   ```bash
+   npm run typeorm migration:run
+   ```
+
+5. Start the application:
+   ```bash
+   # Development mode
+   npm run start:dev
+   ```
+
+---
+
+## 📖 API Documentation
+
+The API is documented using Swagger. Once the application is running, you can access the API documentation at:
+
+```
+http://localhost:3000/api
 ```
 
-## Compile and run the project
+### Key Endpoints
+
+#### User Authentication
+- **POST** `/auth/login` - Authenticate and retrieve a JWT token.
+
+#### Grammar Exercises
+- **POST** `/grammar-exercise/create` - Create a new grammar exercise.
+- **GET** `/grammar-exercise/get` - Retrieve all exercises for the logged-in user.
+- **DELETE** `/grammar-exercise/:id` - Delete a grammar exercise by ID.
+- **DELETE** `/grammar-exercise/:exerciseId/question/:questionId` - Delete a specific question from an exercise.
+
+---
+
+## 🧪 Testing
+
+Run the following commands to test the application:
 
 ```bash
-# development
-$ npm run start
+# Unit tests
+npm run test
 
-# watch mode
-$ npm run start:dev
+# End-to-end tests
+npm run test:e2e
 
-# production mode
-$ npm run start:prod
+# Test coverage
+npm run test:cov
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+## 🌐 Deployment
 
-# e2e tests
-$ npm run test:e2e
+This application is ready for deployment on cloud platforms like AWS, Heroku, or Vercel. Follow these steps for deployment:
 
-# test coverage
-$ npm run test:cov
+1. Build the application:
+   ```bash
+   npm run build
+   ```
+
+2. Deploy the `dist` folder to your cloud platform of choice.
+
+For detailed deployment instructions, refer to the [NestJS Deployment Guide](https://docs.nestjs.com/deployment).
+
+---
+
+## 📂 Folder Structure
+
+```
+src/
+├── auth/                  # Authentication module
+├── grammar-exercise/      # Grammar exercise module
+│   ├── dto/               # Data Transfer Objects
+│   ├── entity/            # Database entities
+│   ├── grammar-exercise.controller.ts
+│   ├── grammar-exercise.service.ts
+├── users/                 # User module
+├── main.ts                # Application entry point
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 📌 Key Learnings
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+- **AI Integration**: Leveraged OpenAI's GPT-4 API to generate dynamic grammar exercises.
+- **Secure Authentication**: Implemented JWT-based authentication for secure access control.
+- **Database Design**: Designed relational database schemas using TypeORM.
+- **API Design**: Built RESTful APIs with proper documentation using Swagger.
+- **Scalability**: Followed modular design principles to ensure scalability and maintainability.
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+---
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🤝 Acknowledgments
 
-## Resources
+- [NestJS](https://nestjs.com) for the amazing framework.
+- [OpenAI](https://openai.com) for the GPT-4 API.
+- [TypeORM](https://typeorm.io) for simplifying database interactions.
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 📬 Contact
 
-## Support
+Feel free to reach out if you have any questions or feedback about this project:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **Email**: xuanphuctran269@gmail.com
+- **LinkedIn**: [My LinkedIn Profile](https://www.linkedin.com/in/xu%C3%A2n-ph%C3%BAc-tr%E1%BA%A7n-2456701ba/)
+- **GitHub**: [My GitHub Profile](https://github.com/XuanPhuc269)
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 📜 License
 
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the [MIT License](LICENSE).
