@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GrammarExercise } from './entity/grammar-exercise.entity';
 import { Users } from 'src/users/entity/users.entity';
+import { generateGrammarExercisePrompt } from './grammar-exercise-prompt';
 
 
 @Injectable()
@@ -21,12 +22,7 @@ export class GrammarExerciseService {
 
 
   async generateQuestions(topic: string, number_of_questions: number) {
-    const prompt = `Trả lời dưới dạng JSON thuần, không có văn bản mô tả. Tạo "${number_of_questions}" câu hỏi trắc nghiệm về chủ đề ngữ pháp "${topic}" dành cho học sinh trung học cơ sở ở Việt Nam. 
-    Mỗi câu hỏi có 3 đáp án và chỉ một đáp án đúng. Định dạng:
-    [
-    { "question": "Câu hỏi 1", "options": ["A", "B", "C"], "correctAnswer": "A" },
-    { "question": "Câu hỏi 2", "options": ["D", "E", "F"], "correctAnswer": "D" }
-    ]`;
+    const prompt = generateGrammarExercisePrompt(topic, number_of_questions);
 
     const response = await this.openai.chat.completions.create({
       model: 'gpt-4o-mini',
